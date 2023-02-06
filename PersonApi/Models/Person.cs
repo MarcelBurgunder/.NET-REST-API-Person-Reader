@@ -16,7 +16,7 @@ public class Person
         this.PhoneNumber = "";
     }
     
-    // Main constructor - sets properties upon creation 
+    // Main constructor - sets properties upon object creation 
     public Person(string firstName, string lastName, string phoneNumber)
     {
         this.FirstName = firstName;
