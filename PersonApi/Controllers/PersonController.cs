@@ -17,13 +17,34 @@ public class PersonController : ControllerBase
 
     // API Endpoint (Post Method) that takes in first and last name and phone number, and saves this to the PersonContext holding Persons.
     [HttpPost]
-    public async Task<ActionResult<TodoItemDTO>> PostTodoItem(string FirstName, string LastName and string PhoneNumber)
+    public async ActionResult PostPerson(string FirstName, string LastName and string PhoneNumber)
     {
+        Person pers = new Person(FirstName, LastName, PhoneNumber);
+        _context.Person.Add(pers);
+        await _context.SaveChangesAsync();
+        return CreatedAtAction("None", pers); // currently no action exists to retrieve the saved objects, hence first parameter is "None"
     }
     
-    // 
+    // API Endpoint (Get Method) that takes in a list of persons via a file and logs each line, and returns processed file as response.
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<TodoItemDTO>>> GetTodoItems()
+    public async Task<ActionResult<string>> ReadFile(this IFormFile file)
     {
+        if (file == null || file.Length == 0)
+        {
+            return BadRequest();
+        }
+        
+        var result = new StringBuilder();
+        using (var reader = new StreamReader(file.OpenReadStream()))
+        {
+            while (reader.Peek() >= 0)
+            {
+                string line = await reader.ReadLineAsync()
+                result.AppendLine(line);
+                Console.WriteLine(line)
+            }
+        }
+        
+        return result.ToString();
     }
 }
