@@ -8,8 +8,10 @@ namespace PersonApi.Controllers;
 [ApiController]
 public class PersonController : ControllerBase
 {
+    // Controller Contexts holding the data model
     private readonly PersonContext _context;
 
+    // Controller Constructor - Sets the context
     public PersonController(PersonContext context)
     {
         _context = context;
